@@ -1,0 +1,64 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin require-restart="true">
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>edu.uoc.allago.UOCSubmissionSystem</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>UOCSubmissionSystem</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="id.albertolago@gmail.com" url="">Alberto Lago</vendor>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="edu.uoc.allago.uocsubmissionsystem.AppSettingsState"/>
+
+        <applicationConfigurable parentId="tools" instance="edu.uoc.allago.uocsubmissionsystem.AppSettingsConfigurable"
+                                 id="edu.uoc.allago.uocsubmissionsystem.AppSettingsConfigurable"
+                                 displayName="UOC Submission System"/>
+
+        <postStartupActivity implementation="edu.uoc.allago.uocsubmissionsystem.ProjectOpenedManager"/>
+
+  </extensions>
+    <!-- -->
+      <applicationListeners>
+          <listener class="edu.uoc.allago.uocsubmissionsystem.ProjectClosedManager" topic="com.intellij.openapi.project.ProjectManagerListener"/>
+      </applicationListeners>
+
+    <!--
+    IDE main menu
+    -->
+      <actions>
+        <group id="MainMenu.UOC Submission System"
+               text="UOC Submission System" description="UOC Submission System options" popup="true">
+            <add-to-group group-id="MainMenu" anchor="before" relative-to-action="HelpMenu"/>
+        </group>
+        <group id="MainMenu.UOC UOC Submission System.Export"
+               text="Export" description="Export project to file or remote server" popup="true">
+            <add-to-group group-id="MainMenu.UOC Submission System" anchor="last"/>
+            <action id="MainMenu.UOC Submission System.Export.Files"
+                    class="edu.uoc.allago.uocsubmissionsystem.ProjectToZipAction"
+                    text="Project to zip file" description="Project to zip file">
+            </action>
+            <action id="MainMenu.UOC Submission System.Export.Server"
+                    class="edu.uoc.allago.uocsubmissionsystem.ProjectToServerAction"
+                    text="Project to server" description="Project to server">
+            </action>
+        </group>
+        <action id="MainMenu.UOC Submission System.Settings"
+                class="edu.uoc.allago.uocsubmissionsystem.SettingsAction"
+                text="Settings" description="Plugin settings.">
+            <add-to-group group-id="MainMenu.UOC Submission System" anchor="last"/>
+        </action>
+        <action id="MainMenu.UOC Submission System.About"
+                class="edu.uoc.allago.uocsubmissionsystem.AboutAction"
+                text="About this plugin" description="About this plugin.">
+            <add-to-group group-id="MainMenu.UOC Submission System" anchor="last"/>
+        </action>
+      </actions>
+  </idea-plugin>
