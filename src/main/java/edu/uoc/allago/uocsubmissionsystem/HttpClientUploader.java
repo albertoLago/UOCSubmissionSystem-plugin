@@ -80,7 +80,7 @@ public class HttpClientUploader {
             EntityUtils.consume(response.getEntity());
             return (statusCode >= 200 && statusCode < 300);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Failed to check if server is online: " + e.getMessage(), e);
             return false;
         }
     }
